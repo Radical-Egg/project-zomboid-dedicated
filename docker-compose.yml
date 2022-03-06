@@ -1,0 +1,12 @@
+---
+version: '3.9'
+services:
+  zomboid:
+    container_name: testing
+    build: .
+    volumes:
+      - ./config:/config
+    environment:
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=secret
+      - SERVERNAME=pz_server
