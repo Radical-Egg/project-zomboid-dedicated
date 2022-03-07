@@ -10,3 +10,9 @@ services:
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=secret
       - SERVERNAME=pz_server
+    ports:
+      - 8766:8766/udp
+      - 8767:8767/udp
+      - 16261:16261/udp
+      - 16262-16272:16262-16272
+      - 27015:27015
