@@ -8,6 +8,7 @@ ENV SERVER_PORT=16261
 ENV PLAYER_PORTS=16262-16272
 ENV STEAM_PORT_1=8766
 ENV STEAM_PORT_2=8767
+ENV WEB_PORT=9000
 
 RUN useradd -m steam
 
@@ -29,6 +30,7 @@ RUN apt-get install -y supervisor && \
 COPY supervisord/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY supervisord/supervisord.conf /etc/supervisor/supervisord.conf
 COPY ./src/bootstrap_pz.sh ${STEAM_HOME}/bootstrap_pz.sh
+COPY ./src/app/pz_webserver /home/steam/pz_webserver
 
 RUN mkdir -p ${APP_DIR} && \
 	mkdir -p ${STEAM_HOME}/Zomboid/Server && \
@@ -47,7 +49,7 @@ RUN ${STEAM_HOME}/steamcmd \
 	-beta b41multiplayer validate \
 	+quit
 
-EXPOSE ${SERVER_PORT}/udp ${PLAYER_PORTS} ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp
+EXPOSE ${SERVER_PORT}/udp ${PLAYER_PORTS} ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${WEB_PORT}/tcp
 VOLUME [ "${APP_DIR}" ]
 
 CMD ["/usr/bin/supervisord"]

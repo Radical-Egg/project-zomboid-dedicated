@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"errors"
 	"os/exec"
 	"syscall"
 )
@@ -13,33 +12,28 @@ type response struct {
 }
 
 func restartServer(server_name string) (*response, error) {
-	args := []string{server_name}
-	out, err := runCommand("echon", args)
-
-	if err != nil {
-		return nil, errors.New(err.Message)
-	}
-
-	return out, nil
+	args := []string{"restart", server_name}
+	resp, err := runCommand("supervisorctl", args)
+	return resp, err
 }
 
-func runCommand(command string, args []string) (*response, *response) {
+func runCommand(command string, args []string) (*response, error) {
 	cmd := exec.Command(command, args...)
-	cmdOutput := &bytes.Buffer{}
+	sbuf := &bytes.Buffer{}
 
-	cmd.Stdout = cmdOutput
-	cmd.Stderr = cmdOutput
+	cmd.Stdout = sbuf
+	cmd.Stderr = sbuf
+
 	var waitStatus syscall.WaitStatus
 	if err := cmd.Run(); err != nil {
-		// Did the command fail because of an unsuccessful exit code
 		if exitError, ok := err.(*exec.ExitError); ok {
 			waitStatus = exitError.Sys().(syscall.WaitStatus)
-			return nil, &response{StatusCode: waitStatus.ExitStatus(), Message: cmdOutput.String()}
+			return &response{StatusCode: waitStatus.ExitStatus(), Message: sbuf.String()}, nil
+		} else {
+			return nil, err
 		}
 	} else {
-		// Command was successful
 		waitStatus = cmd.ProcessState.Sys().(syscall.WaitStatus)
-		return &response{StatusCode: waitStatus.ExitStatus(), Message: cmdOutput.String()}, nil
+		return &response{StatusCode: waitStatus.ExitStatus(), Message: sbuf.String()}, nil
 	}
-	return nil, nil
 }
