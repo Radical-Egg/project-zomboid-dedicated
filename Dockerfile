@@ -26,7 +26,8 @@ RUN apt-get install -y supervisor && \
 	mkdir -p /var/log/supervisor && \
 	chown -R steam:steam /var/log/supervisor
 
-COPY supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord/supervisord.conf /etc/supervisor/supervisord.conf
 COPY ./src/bootstrap_pz.sh ${STEAM_HOME}/bootstrap_pz.sh
 
 RUN mkdir -p ${APP_DIR} && \
