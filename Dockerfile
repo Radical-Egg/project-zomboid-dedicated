@@ -9,6 +9,7 @@ ENV PLAYER_PORTS=16262-16272
 ENV STEAM_PORT_1=8766
 ENV STEAM_PORT_2=8767
 ENV WEB_PORT=9000
+ENV RECON_PORT=27015
 
 RUN useradd -m steam
 
@@ -49,7 +50,7 @@ RUN ${STEAM_HOME}/steamcmd \
 	-beta b41multiplayer validate \
 	+quit
 
-EXPOSE ${SERVER_PORT}/udp ${PLAYER_PORTS} ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${WEB_PORT}/tcp
-VOLUME [ "${APP_DIR}" ]
+EXPOSE ${SERVER_PORT}/udp ${PLAYER_PORTS} ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${WEB_PORT}/tcp ${RECON_PORT}
+VOLUME [ "/home/steam/Zomboid" ]
 
 CMD ["/usr/bin/supervisord"]

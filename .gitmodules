@@ -1,0 +1,3 @@
+[submodule "pz_bot"]
+	path = pz_bot
+	url = https://github.com/Radical-Egg/pz_bot
