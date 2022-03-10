@@ -5,6 +5,7 @@ Simple Project Zomboid Dedicated Game Server with the option to provide your own
 
 In order to get the discord bot working you will need to create one on the developer portal and provide the API key in the docker-compose file. Sample compose file
 
+Docker images aren't in docker hub yet so gotta use this repo
 
 ```YAML
 
