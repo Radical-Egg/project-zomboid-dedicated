@@ -51,6 +51,8 @@ RUN ${STEAM_HOME}/steamcmd \
 	+quit
 
 EXPOSE ${SERVER_PORT}/udp ${PLAYER_PORTS} ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${WEB_PORT}/tcp ${RECON_PORT}
-VOLUME [ "/home/steam/Zomboid" ]
+
+WORKDIR ${STEAM_HOME}
+VOLUME [ "${STEAM_HOME}/Zomboid" ]
 
 CMD ["/usr/bin/supervisord"]
