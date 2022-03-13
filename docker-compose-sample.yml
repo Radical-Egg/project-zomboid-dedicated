@@ -3,7 +3,7 @@ version: '3.9'
 services:
   zomboid:
     container_name: zomboid-dedicated
-    build: .
+    image: radicalegg/project-zomboid-dedicated
     volumes:
       - ./config:/config
     environment:
@@ -21,9 +21,7 @@ services:
       - pz_bridge
   pz_bot:
     container_name: pz_bot
-    build:
-      context: .
-      dockerfile: ./pz_bot/Dockerfile
+    image: radicalegg/pz-discord-bot
     environment:
       - CLIENT_TOKEN=<discord-bot-api-key>
       - PZ_SERVER=zomboid-dedicated
