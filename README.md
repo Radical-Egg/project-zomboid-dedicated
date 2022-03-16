@@ -5,16 +5,14 @@ Simple Project Zomboid Dedicated Game Server with the option to provide your own
 
 In order to get the discord bot working you will need to create one on the developer portal and provide the API key in the docker-compose file. Sample compose file
 
-If you clone this repo you can build it directly like this - otherwise just change the build to image. See docker-compose-sample.yml for pulling image via docker hub
 
 ```YAML
-
 ---
 version: '3.9'
 services:
   zomboid:
     container_name: zomboid-dedicated
-    build: .
+    image: radicalegg/project-zomboid-dedicated
     volumes:
       - ./config:/config
     environment:
@@ -32,9 +30,7 @@ services:
       - pz_bridge
   pz_bot:
     container_name: pz_bot
-    build:
-      context: .
-      dockerfile: ./pz_bot/Dockerfile
+    image: radicalegg/pz-discord-bot
     environment:
       - CLIENT_TOKEN=<discord-bot-api-key>
       - PZ_SERVER=zomboid-dedicated
@@ -46,3 +42,5 @@ networks:
   pz_bridge:
     driver: bridge
  ```
+
+If you use the discord bot the command to restart the server is !restartpz - I will do a better readme at some point but this is the only command provided at the moment
